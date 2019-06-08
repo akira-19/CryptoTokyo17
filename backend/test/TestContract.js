@@ -4,11 +4,12 @@ const { ZERO_ADDRESS } = constants;
 const Booking = artifacts.require('Booking');
 
 contract('Booking', function (accounts) {
-    const resutaurantAddress = accounts[0];
+    const resutaurantAddress = accounts[1];
     const seatNum = 1;
     const yearAndMonth = 201906
     const time = 1400;
     const cost = 0.01 ether;
+    const capacity = 4;
     describe('registerSeat', async function () {
         beforeEach(async function () {
           this.bookingContract = await Booking.new();
@@ -41,12 +42,20 @@ contract('Booking', function (accounts) {
           });
         });
 
-        context('', async function () {
+        context('check registered information', async function () {
+            beforeEach(async function () {
+              this.bookingContract.registerSeat(resutaurantAddress, seatNum, yearAndMonth, time, cost);
+            });
+
+            it('can register a seat', async function () {
+              let owner = await this.bookingContract.ownerOf(1);
+              owner.should.be.equal(account[0]);
+            });
+
+
+
 
         });
-        it('can register a seat', async function () {
-          this.bookingContract.registerSeat(resutaurantAddress, seatNum, yearAndMonth, time, cost);
 
-        });
     });
 });
