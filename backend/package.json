@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "dev-deploy": "npx truffle compile && npx truffle migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
