@@ -7,7 +7,7 @@ import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 contract Booking is ERC721Full, Ownable{
 
     constructor(string memory name, string memory symbol) ERC721Full(name, symbol) public {
-   
+
     }
 
     struct reserveInfo {
@@ -24,7 +24,7 @@ contract Booking is ERC721Full, Ownable{
         address restaurant;
         uint16 seatNum;
         uint16 capacity;
-        uint reservationFee;   
+        uint reservationFee;
     }
 
     reserveInfo[] public reservesInfo;
@@ -34,13 +34,18 @@ contract Booking is ERC721Full, Ownable{
     uint tokenId = 1;
     bytes32 hashForRegister = '';
 
-    function registerSeat(address payable _resutaurantAddress, uint16 _seatNum, uint32 _yaerAndMonth, uint32 _time, uint _cost) public{
+    function transferEther(address payable _to) public payable{
+        uint value = msg.value;
+        _to.transfer(value);
+    }
+
+    function registerSeat(address payable _resutaurantAddress, uint16 _seatNum, uint32 _yaerAndMonth, uint32 _time, uint _cost) public payable{
         super._mint(msg.sender, tokenId);
-        //reservesInfo.push(reserveInfo(tokenId, _resutaurantAddress, _seatNum, _yaerAndMonth, _time, _cost));
-        // hashForRegister = keccak256(abi.encode(_seatNum, _yaerAndMonth, _time));
-        // oneMonthSeatInfo[hashForRegister] = reserveInfo(tokenId, _resutaurantAddress, _seatNum, _yaerAndMonth, _time, _cost, false);
-        // _resutaurantAddress.transfer(_cost);
-        // tokenId++;
+        /* reservesInfo.push(reserveInfo(tokenId, _resutaurantAddress, _seatNum, _yaerAndMonth, _time, _cost)); */
+        hashForRegister = keccak256(abi.encode(_seatNum, _yaerAndMonth, _time));
+        oneMonthSeatInfo[hashForRegister] = reserveInfo(tokenId, _resutaurantAddress, _seatNum, _yaerAndMonth, _time, _cost, false);
+        _resutaurantAddress.transfer(_cost);
+        tokenId++;
     }
 
     function onSale(address _resutaurantAddress, uint16 _seatNum, uint32 _yaerAndMonth, uint32 _time, uint _cost) public {

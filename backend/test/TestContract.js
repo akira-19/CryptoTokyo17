@@ -17,6 +17,12 @@ contract('Booking', function (accounts) {
           this.bookingContract = await Booking.new("test", "test");
         });
 
+        it.only("should transfer ether", async function() {
+            await this.bookingContract.transferEther(accounts[1], {value: cost});
+            // console.log(balance(resutaurantAddress));
+
+        });
+
         context('nil check', async function () {
           it('should revert when restaurant address is blank', async function () {
             await expectRevert(this.bookingContract.registerSeat(ZERO_ADDRESS, seatNum, yearAndMonth, time, cost)
