@@ -45,12 +45,11 @@ App = {
     web3.eth.getAccounts(function (error, accounts) {
       var account = accounts[0];
       console.log(account)
+      console.log("0xeb827c448545e8562d26e1d70741a7d5ced86ac3")
     })
     
-
-    
     App.registerSeat();
-    // App.onSale();
+    //App.onSale();
     // App.buySeat();
     // App.getBackSeat();
     // App.getoneMonthSeatInfo();
@@ -58,11 +57,21 @@ App = {
     // App.getSeatInfo();
   },
 
-  registerSeat: function(){
+  registerSeat: async function(){
+    // let instance = await App.contracts.Booking.deployed()
+     
+    //   const seatNum = 1;
+    //   const yearMonth = 20190609;
+    //   const time = 1500;
+    //   let result =  await instance.getoneMonthSeatInfo(seatNum, yearMonth, time);
+    //   console.log(result)
+      
+    //   $('#show').html("x");
+      
       $(document).on('click', '.bookSeat', function(event){
-          var accounts = web3.eth.getAccounts()
-          console.log(accounts[1])
-          const address = accounts[1]
+
+        const address = "0xeb827c448545e8562d26e1d70741a7d5ced86ac3"
+          const user1 = "0xeB827c448545E8562D26E1d70741A7d5cEd86AC3"
           const seatNum = 1;
           const yearMonth = 20190609;
           const time = 1500;
@@ -74,13 +83,25 @@ App = {
           // const cost = $(this).attr("data-cost");
 
          App.contracts.Booking.deployed().then(instance => {
-             instance.registerSeat(address, seatNum, yearMonth, time, cost, {value: cost});
+             instance.registerSeat(address, seatNum, yearMonth, time, cost, {from: user1, value: cost});
          })
-
       });
   },
 
   onSale: function(){
+      App.contracts.Booking.deployed().then(instance => {
+        const seatNum = 1;
+        const yearMonth = 20190609;
+        const time = 1500;
+        let result =  instance.getoneMonthSeatInfo(seatNum, yearMonth, time);
+        console.log(result)
+        
+        $('#show').html("x");
+    })
+      
+
+
+
       App.contracts.Booking.deployed().then(instance => {
           instance.onSale(address, seatNum, yearMonth, time, cost, {value: cost});
       });
