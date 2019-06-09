@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "dev": "lite-server",
     "dev-deploy": "npx truffle compile && npx truffle migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "openzeppelin-test-helpers": "^0.4.0"
+    "openzeppelin-test-helpers": "^0.4.0",
+    "lite-server": "^2.3.0"
   }
 }

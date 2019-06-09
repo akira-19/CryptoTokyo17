@@ -13,6 +13,7 @@ App = {
     try {
       // Request account access
       await window.ethereum.enable();
+      console.log(1)
     } catch (error) {
       // User denied account access...
       console.error("User denied account access")
@@ -24,7 +25,7 @@ App = {
   }
   // If no injected web3 instance is detected, fall back to Ganache
   else {
-    App.web3Provider = new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/48190ec952f442fc94011c79e5e603b1');
+    App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
   }
 
   web3 = new Web3(App.web3Provider);
@@ -39,25 +40,38 @@ App = {
 
     // Set the provider for our contract
     App.contracts.Booking.setProvider(App.web3Provider);
-
   });
 
+    web3.eth.getAccounts(function (error, accounts) {
+      var account = accounts[0];
+      console.log(account)
+    })
+    
+
+    
     App.registerSeat();
-    App.onSale();
-    App.buySeat();
-    App.getBackSeat();
-    App.getoneMonthSeatInfo();
-    App.createSeat();
-    App.getSeatInfo();
+    // App.onSale();
+    // App.buySeat();
+    // App.getBackSeat();
+    // App.getoneMonthSeatInfo();
+    // App.createSeat();
+    // App.getSeatInfo();
   },
 
-  regsiterSeat: function(){
+  registerSeat: function(){
       $(document).on('click', '.bookSeat', function(event){
-          const address = $(this).attr("data-restaurant");
-          const seatNum = $(this).attr("data-seatNum");
-          const yearMonth = $(this).attr("data-yearMonth");
-          const time = $(this).attr("data-time");
-          const cost = $(this).attr("data-cost");
+          var accounts = web3.eth.getAccounts()
+          console.log(accounts[1])
+          const address = accounts[1]
+          const seatNum = 1;
+          const yearMonth = 20190609;
+          const time = 1500;
+          const cost = 1;
+          // const address = $(this).attr("data-restaurant");
+          // const seatNum = $(this).attr("data-seatNum");
+          // const yearMonth = $(this).attr("data-yearMonth");
+          // const time = $(this).attr("data-time");
+          // const cost = $(this).attr("data-cost");
 
          App.contracts.Booking.deployed().then(instance => {
              instance.registerSeat(address, seatNum, yearMonth, time, cost, {value: cost});
