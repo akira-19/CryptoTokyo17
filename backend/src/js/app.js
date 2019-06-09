@@ -42,10 +42,57 @@ App = {
 
   });
 
-    App.getRefund();
-    return App.purchaseToken();
+    App.registerSeat();
+    App.onSale();
+    App.buySeat();
+    App.getBackSeat();
+    App.getoneMonthSeatInfo();
+    App.createSeat();
+    App.getSeatInfo();
   },
 
+  regsiterSeat: function(){
+      $(document).on('click', '.bookSeat', function(event){
+          const address = $(this).attr("data-restaurant");
+          const seatNum = $(this).attr("data-seatNum");
+          const yearMonth = $(this).attr("data-yearMonth");
+          const time = $(this).attr("data-time");
+          const cost = $(this).attr("data-cost");
+
+         App.contracts.Booking.deployed().then(instance => {
+             instance.registerSeat(address, seatNum, yearMonth, time, cost, {value: cost});
+         })
+
+      });
+  },
+
+  onSale: function(){
+      App.contracts.Booking.deployed().then(instance => {
+          instance.onSale(address, seatNum, yearMonth, time, cost, {value: cost});
+      });
+  },
+
+  buySeat: function(){
+      // App.contracts.Booking.deployed().then(instance => {
+      //     instance.buySeat(address, seatNum, yearMonth, time, cost, {value: cost});
+      // })
+  },
+
+  getBackSeat: function(){
+
+  },
+
+  getoneMonthSeatInfo: function(){
+
+  },
+
+  createSeat: function(){
+
+  },
+
+  getSeatInfo: function(){
+
+  }
 
 
 }
